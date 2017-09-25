@@ -1,7 +1,6 @@
 /**
  * Created by cturner on 07/08/2017.
  */
-
 var stage;
 var renderer;
 
@@ -37,19 +36,19 @@ function assetLoad() {
 
     var homeBtn = new PIXI.Sprite(PIXI.loader.resources["img/buttons/home.png"].texture);
     homeBtn.scale.set(0.5,0.5);
-    homeBtn.position.set(1250,3);
+    homeBtn.position.set(window.innerWidth / 1.05, window.innerHeight / 75);
     homeBtn.interactive = true;
     homeBtn.buttonMode = true;
 
     homeBtn.mousedown = function (mouseData){
       homeBtn.scale.set(0.48,0.48);
-      homeBtn.position.set(1251,4);
+      homeBtn.position.set(window.innerWidth / 1.05, window.innerHeight / 75);
       refresh();
     };
 
     homeBtn.mouseup = function (mouseData) {
     homeBtn.scale.set(0.5,0.5);
-    homeBtn.position.set(1250,3);
+    homeBtn.position.set(window.innerWidth / 1.05, window.innerHeight / 75);
     stage.addChild(quitDialog, quitYes, quitNo);
     homeBtn.interactive = false;
     refresh();
@@ -57,7 +56,7 @@ function assetLoad() {
 
     var quitDialog = new PIXI.Sprite(PIXI.loader.resources["img/quitgame.png"].texture);
     quitDialog.scale.set(0.75,0.75);
-    quitDialog.position.set(360,160);
+    quitDialog.position.set(window.innerWidth / 3, window.innerHeight / 3);
     var quitYes = new PIXI.Sprite(PIXI.loader.resources["img/buttons/yes.png"].texture);
     quitYes.scale.set(0.5,0.5);
     quitYes.position.set(500,425);
