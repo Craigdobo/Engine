@@ -3,7 +3,6 @@
  */
 var stage;
 var renderer;
-
 function init() {
     {
 
@@ -31,40 +30,40 @@ function init() {
 function assetLoad() {
 
     var background = new PIXI.Sprite(PIXI.loader.resources["img/background.png"].texture);
-    background.scale.set(window.innerWidth / 1280, window.innerHeight / 720);
+    background.scale.set(renderer.width / 1280, renderer.height / 720);
     background.position.set(0,0);
 
     var homeBtn = new PIXI.Sprite(PIXI.loader.resources["img/buttons/home.png"].texture);
-    homeBtn.scale.set(0.5,0.5);
-    homeBtn.position.set(window.innerWidth / 1.05, window.innerHeight / 75);
+    homeBtn.scale.set(renderer.width / 2800, renderer.width / 2800);
+    homeBtn.position.set(renderer.width / 1.08, renderer.height / 130);
     homeBtn.interactive = true;
     homeBtn.buttonMode = true;
 
     homeBtn.mousedown = function (mouseData){
-      homeBtn.scale.set(0.48,0.48);
-      homeBtn.position.set(window.innerWidth / 1.05, window.innerHeight / 75);
+      homeBtn.scale.set(renderer.width / 2750, renderer.width / 2750);
+      homeBtn.position.set(renderer.width / 1.078, renderer.height / 110);
       refresh();
     };
 
     homeBtn.mouseup = function (mouseData) {
-    homeBtn.scale.set(0.5,0.5);
-    homeBtn.position.set(window.innerWidth / 1.05, window.innerHeight / 75);
+    homeBtn.scale.set(renderer.width / 2800, renderer.width / 2800);
+    homeBtn.position.set(renderer.width / 1.08, renderer.height / 130);
     stage.addChild(quitDialog, quitYes, quitNo);
     homeBtn.interactive = false;
     refresh();
     };
 
     var quitDialog = new PIXI.Sprite(PIXI.loader.resources["img/quitgame.png"].texture);
-    quitDialog.scale.set(0.75,0.75);
-    quitDialog.position.set(window.innerWidth / 3, window.innerHeight / 3);
+    quitDialog.scale.set(renderer.width / 2000, renderer.width / 2000);
+    quitDialog.position.set(renderer.width / 3.2, renderer.height / 5);
     var quitYes = new PIXI.Sprite(PIXI.loader.resources["img/buttons/yes.png"].texture);
-    quitYes.scale.set(0.5,0.5);
-    quitYes.position.set(500,425);
+    quitYes.scale.set(renderer.width / 2500, renderer.width / 2500);
+    quitYes.position.set(renderer.width / 2.4, renderer.height / 2);
     quitYes.interactive = true;
     quitYes.buttonMode = true;
     quitYes.mousedown = function (mouseData){
-        quitYes.scale.set(0.48,0.48);
-        quitYes.position.set(501,424);
+        quitYes.scale.set(renderer.width / 2550, renderer.width / 2550);
+        quitYes.position.set(renderer.width / 2.398, renderer.height / 1.99);
         refresh();
     };
     quitYes.mouseup = function (mouseData){
@@ -72,13 +71,13 @@ function assetLoad() {
     };
 
     var quitNo = new PIXI.Sprite(PIXI.loader.resources["img/buttons/no.png"].texture);
-    quitNo.scale.set(0.5,0.5);
-    quitNo.position.set(750,425);
+    quitNo.scale.set(renderer.width / 2500, renderer.width / 2500);
+    quitNo.position.set(renderer.width / 1.8, renderer.height / 2);
     quitNo.interactive = true;
     quitNo.buttonMode = true;
     quitNo.mousedown = function (mouseData){
-        quitNo.scale.set(0.48,0.48);
-        quitNo.position.set(751,424);
+        quitNo.scale.set(renderer.width / 2550, renderer.width / 2550);
+        quitNo.position.set(renderer.width / 1.798, renderer.height / 1.99);
         refresh();
     };
     quitNo.mouseup = function (mouseData){
