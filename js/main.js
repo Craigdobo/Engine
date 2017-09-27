@@ -1,4 +1,4 @@
-/**
+goo/**
  * Created by cturner on 07/08/2017.
  */
 var stage;
@@ -19,7 +19,8 @@ function init() {
         });
 
         PIXI.loader
-            .add(["img/background.png", "img/buttons/home.png", "img/quitgame.png", "img/buttons/no.png", "img/buttons/yes.png"])
+            .add(["img/background.png", "img/buttons/home.png", "img/quitgame.png", "img/buttons/no.png", "img/buttons/yes.png", "img/buttons/soundon.png",
+            "img/buttons/soundoff.png"])
             .on("complete", assetLoad)
             .load();
 
@@ -85,8 +86,29 @@ function assetLoad() {
         homeBtn.interactive = true;
         refresh();
     };
+    var soundOn = new PIXI.Sprite(PIXI.loader.resources["img/buttons/soundon.png"].texture);
+    soundOn.scale.set(renderer.width / 2750, renderer.width / 2750);
+    soundOn.position.set(renderer.width / 1.14, renderer.height / 130);
+    soundOn.interactive = true;
+    soundOn.buttonMode =  true;
+    soundOn.mousedown = function (mouseData){
+        stage.removeChild(soundOn);
+        stage.addChild(soundOff);
+        refresh();
+    }
 
-    stage.addChild(background, homeBtn);
+    var soundOff = new PIXI.Sprite(PIXI.loader.resources["img/buttons/soundoff.png"].texture);
+    soundOff.scale.set(renderer.width / 2750, renderer.width / 2750);
+    soundOff.position.set(renderer.width / 1.14, renderer.height / 130);
+    soundOff.interactive = true;
+    soundOff.buttonMode = true;
+    soundOff.mousedown = function (mouseData){
+        stage.removeChild(soundOff);
+        stage.addChild(soundOn);
+        refresh();
+    }
+
+    stage.addChild(background, homeBtn, soundOn);
     refresh();
 
 }
