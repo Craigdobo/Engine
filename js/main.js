@@ -1,4 +1,4 @@
-goo/**
+/**
  * Created by cturner on 07/08/2017.
  */
 var stage;
@@ -19,8 +19,8 @@ function init() {
         });
 
         PIXI.loader
-            .add(["img/background.png", "img/buttons/home.png", "img/quitgame.png", "img/buttons/no.png", "img/buttons/yes.png", "img/buttons/soundon.png",
-            "img/buttons/soundoff.png"])
+            .add(["img/background.png", "img/buttons/home.png", "img/quitgame.png", "img/buttons/no.png", "img/buttons/yes.png",
+            "img/buttons/spin.png", "img/buttons/stakefield.png", "img/buttons/up.png", "img/buttons/down.png"])
             .on("complete", assetLoad)
             .load();
 
@@ -86,29 +86,26 @@ function assetLoad() {
         homeBtn.interactive = true;
         refresh();
     };
-    var soundOn = new PIXI.Sprite(PIXI.loader.resources["img/buttons/soundon.png"].texture);
-    soundOn.scale.set(renderer.width / 2750, renderer.width / 2750);
-    soundOn.position.set(renderer.width / 1.14, renderer.height / 130);
-    soundOn.interactive = true;
-    soundOn.buttonMode =  true;
-    soundOn.mousedown = function (mouseData){
-        stage.removeChild(soundOn);
-        stage.addChild(soundOff);
-        refresh();
-    }
 
-    var soundOff = new PIXI.Sprite(PIXI.loader.resources["img/buttons/soundoff.png"].texture);
-    soundOff.scale.set(renderer.width / 2750, renderer.width / 2750);
-    soundOff.position.set(renderer.width / 1.14, renderer.height / 130);
-    soundOff.interactive = true;
-    soundOff.buttonMode = true;
-    soundOff.mousedown = function (mouseData){
-        stage.removeChild(soundOff);
-        stage.addChild(soundOn);
-        refresh();
-    }
+    var spin = new PIXI.Sprite(PIXI.loader.resources["img/buttons/spin.png"].texture);
+    spin.scale.set(renderer.width / 3000, renderer.width / 3000);
+    spin.position.set(renderer.width / 1.2, renderer.height / 2.2);
+    spin.interactive = true;
+    spin.buttonMode = true;
 
-    stage.addChild(background, homeBtn, soundOn);
+    var stake = new PIXI.Sprite(PIXI.loader.resources["img/buttons/stakefield.png"].texture);
+    stake.scale.set(renderer.width / 3500, renderer.width / 3500);
+    stake.position.set(renderer.width / 50 , renderer.height / 2);
+
+    var up = new PIXI.Sprite(PIXI.loader.resources["img/buttons/up.png"].texture);
+    up.scale.set(renderer.width / 3500, renderer.width / 3500);
+    up.position.set(renderer.width / 35 , renderer.height / 2.5);
+
+    var down = new PIXI.Sprite(PIXI.loader.resources["img/buttons/down.png"].texture);
+    down.scale.set(renderer.width / 3500, renderer.width / 3500);
+    down.position.set(renderer.width / 35 , renderer.height / 1.55);
+
+    stage.addChild(background, homeBtn, spin, stake, up, down);
     refresh();
 
 }
