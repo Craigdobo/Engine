@@ -3,6 +3,17 @@
  */
 var stage;
 var renderer;
+var initStake;
+var availStakes = [0.20,0.40,0.60,0.80,1,2,5,10,20,50,100,200];
+var stakepos = 5;
+var up;
+var down;
+var H1
+var H1Spin;
+var reel1;
+var reel2;
+var reel3;
+
 function init() {
     {
 
@@ -20,7 +31,8 @@ function init() {
 
         PIXI.loader
             .add(["img/background.png", "img/buttons/home.png", "img/quitgame.png", "img/buttons/no.png", "img/buttons/yes.png",
-            "img/buttons/spin.png", "img/buttons/stakefield.png", "img/buttons/up.png", "img/buttons/down.png"])
+            "img/buttons/spin.png", "img/buttons/stakefield.png", "img/buttons/up.png", "img/buttons/down.png", "img/reel/Jelly_03.png",
+            "img/reel.red_spin.png"])
             .on("complete", assetLoad)
             .load();
 
@@ -51,6 +63,8 @@ function assetLoad() {
     homeBtn.position.set(renderer.width / 1.08, renderer.height / 130);
     stage.addChild(quitDialog, quitYes, quitNo);
     homeBtn.interactive = false;
+    up.interactive = false;
+    down.interactive = false;
     refresh();
     };
 
@@ -84,6 +98,8 @@ function assetLoad() {
     quitNo.mouseup = function (mouseData){
         stage.removeChild(quitDialog, quitYes, quitNo);
         homeBtn.interactive = true;
+        up.interactive = true;
+        down.interactive = true;
         refresh();
     };
 
@@ -92,24 +108,130 @@ function assetLoad() {
     spin.position.set(renderer.width / 1.2, renderer.height / 2.2);
     spin.interactive = true;
     spin.buttonMode = true;
+    spin.mousedown = function (mouseData) {
+        spin.scale.set(renderer.width / 3050, renderer.width / 3050);
+        spin.position.set(renderer.width / 1.2, renderer.height / 2.19);
+        refresh();
+    };
+    spin.mouseup = function (mouseData) {
+        spin.scale.set(renderer.width / 3000, renderer.width / 3000);
+        spin.position.set(renderer.width / 1.2, renderer.height / 2.2);
+        spingame();
+        refresh();
+    };
 
     var stake = new PIXI.Sprite(PIXI.loader.resources["img/buttons/stakefield.png"].texture);
     stake.scale.set(renderer.width / 3500, renderer.width / 3500);
     stake.position.set(renderer.width / 50 , renderer.height / 2);
+    initStake = new PIXI.Text("£" + availStakes[stakepos].toString(),{fontFamily: "Arial", fill: 0xFFFFFF, fontSize: 70, align: 'left'});
+    initStake.anchor.set(0.5,0.5);
+    initStake.position.set(122,125);
+    stake.addChild(initStake);
 
-    var up = new PIXI.Sprite(PIXI.loader.resources["img/buttons/up.png"].texture);
+    up = new PIXI.Sprite(PIXI.loader.resources["img/buttons/up.png"].texture);
     up.scale.set(renderer.width / 3500, renderer.width / 3500);
     up.position.set(renderer.width / 35 , renderer.height / 2.5);
+    up.interactive = true;
+    up.buttonMode = true;
+    up.mousedown = function (mouseData){
+        up.scale.set(renderer.width / 3550, renderer.width / 3550);
+        up.position.set(renderer.width / 35 , renderer.height / 2.5);
+        refresh();
+    };
+    up.mouseup = function (mouseData){
+        up.scale.set(renderer.width / 3500, renderer.width / 3500);
+        up.position.set(renderer.width / 34.95 , renderer.height / 2.49);
+        increaseStake();
+    };
 
-    var down = new PIXI.Sprite(PIXI.loader.resources["img/buttons/down.png"].texture);
+    down = new PIXI.Sprite(PIXI.loader.resources["img/buttons/down.png"].texture);
     down.scale.set(renderer.width / 3500, renderer.width / 3500);
     down.position.set(renderer.width / 35 , renderer.height / 1.55);
+    down.interactive = true;
+    down.buttonMode = true;
+    down.mousedown = function (mouseData){
+        down.scale.set(renderer.width / 3550, renderer.width / 3550);
+        down.position.set(renderer.width / 34.95 , renderer.height / 1.54);
+        refresh();
+    };
+    down.mouseup = function (mouseData) {
+        down.scale.set(renderer.width / 3500, renderer.width / 3500);
+        down.position.set(renderer.width / 35 , renderer.height / 1.55);
+        decreaseStake();
+    };
 
-    stage.addChild(background, homeBtn, spin, stake, up, down);
+    H1 = PIXI.Texture.fromImage("img/reel/Jelly_03.png");
+    H1Spin = PIXI.Texture.fromImage("img/reel/red_spin.png");
+    reel1 = new PIXI.Sprite(H1);
+    reel1.scale.set(renderer.width / 3500, renderer.width / 3500);
+    reel1.position.set(renderer.width / 3 , renderer.height / 2.2);
+
+    reel2 = new PIXI.Sprite(H1);
+    reel2.scale.set(renderer.width / 3500, renderer.width / 3500);
+    reel2.position.set(renderer.width / 2.2 , renderer.height / 2.2);
+
+    reel3 = new PIXI.Sprite(H1);
+    reel3.scale.set(renderer.width / 3500, renderer.width / 3500);
+    reel3.position.set(renderer.width / 1.74 , renderer.height / 2.2);
+
+    stage.addChild(background, homeBtn, spin, stake, up, down, reel1, reel2, reel3);
     refresh();
-
 }
 
 function refresh(){
     renderer.render(stage);
+}
+
+function increaseStake(){
+
+    if (stakepos >= availStakes.length){
+        up.interactive = false;
+        down.interactive = true;
+    }
+    else{
+        stakepos = stakepos + 1;
+        stake = availStakes[stakepos];
+        initStake.text = "£" + availStakes[stakepos].toString();
+        down.interactive = true;
+        if(stakepos >= 11){
+            up.interactive = false;
+        }
+        else{
+            up.interactive = true;
+        }
+        refresh();
+    }
+}
+
+function decreaseStake(){
+    if (stakepos < 1){
+        down.interactive = false;
+        up.interactive = true;
+    }
+    else{
+        stakepos = stakepos - 1;
+        stake = availStakes[stakepos];
+        initStake.text = "£" + availStakes[stakepos].toString();
+        up.interactive = true;
+        if(stakepos <= 0){
+            down.interactive = false;
+        }
+        else{
+            down.interactive = true;
+        }
+        refresh();
+    }
+}
+
+function spingame(){
+
+    reel1.setTexture(H1Spin);
+    reel2.setTexture(H1Spin);
+    reel3.setTexture(H1Spin);
+
+    reel1.y +=10;
+    reel2.y +=10;
+    reel3.y +=10;
+    requestAnimationFrame(spingame);
+    refresh();
 }
