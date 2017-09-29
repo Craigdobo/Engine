@@ -32,7 +32,7 @@ function init() {
         PIXI.loader
             .add(["img/background.png", "img/buttons/home.png", "img/quitgame.png", "img/buttons/no.png", "img/buttons/yes.png",
             "img/buttons/spin.png", "img/buttons/stakefield.png", "img/buttons/up.png", "img/buttons/down.png", "img/reel/Jelly_03.png",
-            "img/reel.red_spin.png"])
+            "img/reel/red_spin.png"])
             .on("complete", assetLoad)
             .load();
 
@@ -229,9 +229,9 @@ function spingame(){
     reel2.setTexture(H1Spin);
     reel3.setTexture(H1Spin);
 
-    reel1.y +=10;
-    reel2.y +=10;
-    reel3.y +=10;
+    reel1.y +=8;
+    reel2.y +=8;
+    reel3.y +=8;
     requestAnimationFrame(spingame);
     refresh();
 }
