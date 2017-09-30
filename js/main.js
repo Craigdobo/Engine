@@ -19,6 +19,16 @@ var reel2;
 var reel3;
 var reel4;
 var reel5;
+var reel6;
+var reel7;
+var reel8;
+var reel9;
+var reel10;
+var reel11;
+var reel12;
+var reel13;
+var reel14;
+var reel15;
 var reelcount = 0;
 var reelarray = [];
 var symb = [];
@@ -183,25 +193,65 @@ function assetLoad() {
     reelSet();
     reel1 = new PIXI.Sprite(symb[reelarray[0]]);
     reel1.scale.set(renderer.width / 3500, renderer.width / 3500);
-    reel1.position.set(renderer.width / 5 , renderer.height / 2.2);
+    reel1.position.set(renderer.width / 5 , renderer.height / 4);
 
     reel2 = new PIXI.Sprite(symb[reelarray[1]]);
     reel2.scale.set(renderer.width / 3500, renderer.width / 3500);
-    reel2.position.set(renderer.width / 3.2 , renderer.height / 2.2);
+    reel2.position.set(renderer.width / 3.2 , renderer.height / 4);
 
     reel3 = new PIXI.Sprite(symb[reelarray[2]]);
     reel3.scale.set(renderer.width / 3500, renderer.width / 3500);
-    reel3.position.set(renderer.width / 2.3 , renderer.height / 2.2);
+    reel3.position.set(renderer.width / 2.3 , renderer.height / 4);
 
     reel4 = new PIXI.Sprite(symb[reelarray[3]]);
     reel4.scale.set(renderer.width / 3500, renderer.width / 3500);
-    reel4.position.set(renderer.width / 1.8 , renderer.height / 2.2);
+    reel4.position.set(renderer.width / 1.8 , renderer.height / 4);
 
     reel5 = new PIXI.Sprite(symb[reelarray[4]]);
     reel5.scale.set(renderer.width / 3500, renderer.width / 3500);
-    reel5.position.set(renderer.width / 1.5 , renderer.height / 2.2);
+    reel5.position.set(renderer.width / 1.5 , renderer.height / 4);
 
-    stage.addChild(background, homeBtn, spin, stake, up, down, reel1, reel2, reel3, reel4, reel5);
+    reel6 = new PIXI.Sprite(symb[reelarray[5]]);
+    reel6.scale.set(renderer.width / 3500, renderer.width / 3500);
+    reel6.position.set(renderer.width / 5 , renderer.height / 2.2);
+
+    reel7 = new PIXI.Sprite(symb[reelarray[6]]);
+    reel7.scale.set(renderer.width / 3500, renderer.width / 3500);
+    reel7.position.set(renderer.width / 3.2 , renderer.height / 2.2);
+
+    reel8 = new PIXI.Sprite(symb[reelarray[7]]);
+    reel8.scale.set(renderer.width / 3500, renderer.width / 3500);
+    reel8.position.set(renderer.width / 2.3 , renderer.height / 2.2);
+
+    reel9 = new PIXI.Sprite(symb[reelarray[8]]);
+    reel9.scale.set(renderer.width / 3500, renderer.width / 3500);
+    reel9.position.set(renderer.width / 1.8 , renderer.height / 2.2);
+
+    reel10 = new PIXI.Sprite(symb[reelarray[9]]);
+    reel10.scale.set(renderer.width / 3500, renderer.width / 3500);
+    reel10.position.set(renderer.width / 1.5 , renderer.height / 2.2);
+
+    reel11 = new PIXI.Sprite(symb[reelarray[10]]);
+    reel11.scale.set(renderer.width / 3500, renderer.width / 3500);
+    reel11.position.set(renderer.width / 5 , renderer.height / 1.5);
+
+    reel12 = new PIXI.Sprite(symb[reelarray[11]]);
+    reel12.scale.set(renderer.width / 3500, renderer.width / 3500);
+    reel12.position.set(renderer.width / 3.2 , renderer.height / 1.5);
+
+    reel13 = new PIXI.Sprite(symb[reelarray[12]]);
+    reel13.scale.set(renderer.width / 3500, renderer.width / 3500);
+    reel13.position.set(renderer.width / 2.3 , renderer.height / 1.5);
+
+    reel14 = new PIXI.Sprite(symb[reelarray[13]]);
+    reel14.scale.set(renderer.width / 3500, renderer.width / 3500);
+    reel14.position.set(renderer.width / 1.8 , renderer.height / 1.5);
+
+    reel15 = new PIXI.Sprite(symb[reelarray[14]]);
+    reel15.scale.set(renderer.width / 3500, renderer.width / 3500);
+    reel15.position.set(renderer.width / 1.5 , renderer.height / 1.5);
+
+    stage.addChild(background, homeBtn, spin, stake, up, down, reel1, reel2, reel3, reel4, reel5, reel6,  reel7, reel8, reel8, reel9, reel10, reel11, reel12, reel13, reel14, reel15);
     refresh();
 }
 
@@ -321,7 +371,7 @@ function rng(){
 
 function reelSet(){
 
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < 15; i++) {
 
         rng();
         reelarray[i] = rngNumber;
