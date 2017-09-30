@@ -8,11 +8,21 @@ var availStakes = [0.20,0.40,0.60,0.80,1,2,5,10,20,50,100,200];
 var stakepos = 5;
 var up;
 var down;
-var H1
-var H1Spin;
+var H1;
+var H2;
+var H3;
+var H4;
+var H5;
+var H6;
 var reel1;
 var reel2;
 var reel3;
+var reel4;
+var reel5;
+var reelcount = 0;
+var reelarray = [];
+var symb = [];
+var rngNumber;
 
 function init() {
     {
@@ -31,7 +41,8 @@ function init() {
 
         PIXI.loader
             .add(["img/background.png", "img/buttons/home.png", "img/quitgame.png", "img/buttons/no.png", "img/buttons/yes.png",
-            "img/buttons/spin.png", "img/buttons/stakefield.png", "img/buttons/up.png", "img/buttons/down.png", "img/reel/Jelly_03.png",
+            "img/buttons/spin.png", "img/buttons/stakefield.png", "img/buttons/up.png", "img/buttons/down.png", "img/reel/Jelly_01.png",
+            "img/reel/Jelly_02.png", "img/reel/Jelly_03.png", "img/reel/Jelly_04.png", "img/reel/Jelly_05.png", "img/reel/Jelly_06.png",
             "img/reel/red_spin.png"])
             .on("complete", assetLoad)
             .load();
@@ -65,6 +76,7 @@ function assetLoad() {
     homeBtn.interactive = false;
     up.interactive = false;
     down.interactive = false;
+    spin.interactive = false;
     refresh();
     };
 
@@ -100,22 +112,23 @@ function assetLoad() {
         homeBtn.interactive = true;
         up.interactive = true;
         down.interactive = true;
+        spin.interactive = true;
         refresh();
     };
 
     var spin = new PIXI.Sprite(PIXI.loader.resources["img/buttons/spin.png"].texture);
     spin.scale.set(renderer.width / 3000, renderer.width / 3000);
-    spin.position.set(renderer.width / 1.2, renderer.height / 2.2);
+    spin.position.set(renderer.width / 1.2, renderer.height / 2.35);
     spin.interactive = true;
     spin.buttonMode = true;
     spin.mousedown = function (mouseData) {
         spin.scale.set(renderer.width / 3050, renderer.width / 3050);
-        spin.position.set(renderer.width / 1.2, renderer.height / 2.19);
+        spin.position.set(renderer.width / 1.2, renderer.height / 2.349);
         refresh();
     };
     spin.mouseup = function (mouseData) {
         spin.scale.set(renderer.width / 3000, renderer.width / 3000);
-        spin.position.set(renderer.width / 1.2, renderer.height / 2.2);
+        spin.position.set(renderer.width / 1.2, renderer.height / 2.35);
         spingame();
         refresh();
     };
@@ -160,21 +173,35 @@ function assetLoad() {
         decreaseStake();
     };
 
-    H1 = PIXI.Texture.fromImage("img/reel/Jelly_03.png");
-    H1Spin = PIXI.Texture.fromImage("img/reel/red_spin.png");
-    reel1 = new PIXI.Sprite(H1);
+    H1 = PIXI.Texture.fromImage("img/reel/Jelly_01.png");
+    H2 = PIXI.Texture.fromImage("img/reel/Jelly_02.png");
+    H3 = PIXI.Texture.fromImage("img/reel/Jelly_03.png");
+    H4 = PIXI.Texture.fromImage("img/reel/Jelly_04.png");
+    H5 = PIXI.Texture.fromImage("img/reel/Jelly_05.png");
+    H6 = PIXI.Texture.fromImage("img/reel/Jelly_06.png");
+    symb = [H1, H2, H3, H4, H5, H6];
+    reelSet();
+    reel1 = new PIXI.Sprite(symb[reelarray[0]]);
     reel1.scale.set(renderer.width / 3500, renderer.width / 3500);
-    reel1.position.set(renderer.width / 3 , renderer.height / 2.2);
+    reel1.position.set(renderer.width / 5 , renderer.height / 2.2);
 
-    reel2 = new PIXI.Sprite(H1);
+    reel2 = new PIXI.Sprite(symb[reelarray[1]]);
     reel2.scale.set(renderer.width / 3500, renderer.width / 3500);
-    reel2.position.set(renderer.width / 2.2 , renderer.height / 2.2);
+    reel2.position.set(renderer.width / 3.2 , renderer.height / 2.2);
 
-    reel3 = new PIXI.Sprite(H1);
+    reel3 = new PIXI.Sprite(symb[reelarray[2]]);
     reel3.scale.set(renderer.width / 3500, renderer.width / 3500);
-    reel3.position.set(renderer.width / 1.74 , renderer.height / 2.2);
+    reel3.position.set(renderer.width / 2.3 , renderer.height / 2.2);
 
-    stage.addChild(background, homeBtn, spin, stake, up, down, reel1, reel2, reel3);
+    reel4 = new PIXI.Sprite(symb[reelarray[3]]);
+    reel4.scale.set(renderer.width / 3500, renderer.width / 3500);
+    reel4.position.set(renderer.width / 1.8 , renderer.height / 2.2);
+
+    reel5 = new PIXI.Sprite(symb[reelarray[4]]);
+    reel5.scale.set(renderer.width / 3500, renderer.width / 3500);
+    reel5.position.set(renderer.width / 1.5 , renderer.height / 2.2);
+
+    stage.addChild(background, homeBtn, spin, stake, up, down, reel1, reel2, reel3, reel4, reel5);
     refresh();
 }
 
@@ -225,13 +252,79 @@ function decreaseStake(){
 
 function spingame(){
 
-    reel1.setTexture(H1Spin);
-    reel2.setTexture(H1Spin);
-    reel3.setTexture(H1Spin);
+    if (reelcount === 3){
+        if(reel1.y >= renderer.height / 2.2){
 
-    reel1.y +=8;
-    reel2.y +=8;
-    reel3.y +=8;
-    requestAnimationFrame(spingame);
-    refresh();
+            cancelAnimationFrame(spingame);
+            reel1.setTexture(symb[reelarray[0]]);
+            reel2.setTexture(symb[reelarray[1]]);
+            reel3.setTexture(symb[reelarray[2]]);
+            reel4.setTexture(symb[reelarray[3]]);
+            reel5.setTexture(symb[reelarray[4]]);
+            reelcount = 0;
+            refresh();
+        }
+        else{
+            reel1.setTexture(symb[reelarray[0]]);
+            reel2.setTexture(symb[reelarray[1]]);
+            reel3.setTexture(symb[reelarray[2]]);
+            reel4.setTexture(symb[reelarray[3]]);
+            reel5.setTexture(symb[reelarray[4]]);
+
+            reel1.y += 10;
+            reel2.y += 10;
+            reel3.y += 10;
+            reel4.y += 10;
+            reel5.y += 10;
+            requestAnimationFrame(spingame);
+            refresh();
+        }
+    }
+
+    else {
+
+        if (reel1.y >= 600) {
+            cancelAnimationFrame(spingame);
+            reelSet();
+            stage.removeChild(reel1, reel2, reel3);
+            reel1.y = renderer.height / 4;
+            reel2.y = renderer.height / 4;
+            reel3.y = renderer.height / 4;
+            reel4.y = renderer.height / 4;
+            reel5.y = renderer.height / 4;
+            stage.addChild(reel1, reel2, reel3);
+            refresh();
+            spingame();
+            reelcount = reelcount + 1;
+        }
+        else {
+            reel1.setTexture(symb[reelarray[0]]);
+            reel2.setTexture(symb[reelarray[1]]);
+            reel3.setTexture(symb[reelarray[2]]);
+            reel4.setTexture(symb[reelarray[3]]);
+            reel5.setTexture(symb[reelarray[4]]);
+
+            reel1.y += 10;
+            reel2.y += 10;
+            reel3.y += 10;
+            reel4.y += 10;
+            reel5.y += 10;
+            requestAnimationFrame(spingame);
+            refresh();
+        }
+    }
+}
+
+function rng(){
+   rngNumber = Math.floor((Math.random()*5));
+}
+
+function reelSet(){
+
+    for (var i = 0; i < 5; i++) {
+
+        rng();
+        reelarray[i] = rngNumber;
+        console.log(reelarray);
+    }
 }
