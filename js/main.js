@@ -21,7 +21,7 @@ var reelarray = [];
 var symb = [];
 var rngNumber;
 var rowNo;
-var anispeed = 10;
+var anispeed = 15;
 var winlines = [[0,1,2,3,4], [5,6,7,8,9], [10,11,12,13,14], [0,1,7,3,4], [10,11,5,13,14]];
 var winnings;
 
