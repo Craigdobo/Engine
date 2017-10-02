@@ -33,6 +33,7 @@ var reelcount = 0;
 var reelarray = [];
 var symb = [];
 var rngNumber;
+var rowNo;
 
 function init() {
     {
@@ -190,7 +191,7 @@ function assetLoad() {
     H5 = PIXI.Texture.fromImage("img/reel/Jelly_05.png");
     H6 = PIXI.Texture.fromImage("img/reel/Jelly_06.png");
     symb = [H1, H2, H3, H4, H5, H6];
-    reelSet();
+    initreel();
     reel1 = new PIXI.Sprite(symb[reelarray[0]]);
     reel1.scale.set(renderer.width / 3500, renderer.width / 3500);
     reel1.position.set(renderer.width / 5 , renderer.height / 5);
@@ -306,11 +307,6 @@ function spingame(){
         if((reel1.y >= renderer.height / 4) && (reel6.y >= renderer.height / 2.2) && (reel11.y >= renderer.height / 1.5)){
 
             cancelAnimationFrame(spingame);
-            reel1.setTexture(symb[reelarray[0]]);
-            reel2.setTexture(symb[reelarray[1]]);
-            reel3.setTexture(symb[reelarray[2]]);
-            reel4.setTexture(symb[reelarray[3]]);
-            reel5.setTexture(symb[reelarray[4]]);
             reelcount = 0;
             refresh();
         }
@@ -343,6 +339,7 @@ function spingame(){
 
     else if (reel1.y >= renderer.height / 1) {
             cancelAnimationFrame(spingame);
+            rowNo = 5;
             reelSet();
             stage.removeChild(reel1, reel2, reel3, reel4, reel5);
             reel1.y = renderer.height / 5;
@@ -358,6 +355,7 @@ function spingame(){
         }
         else if (reel6.y >= renderer.height / 1) {
                 cancelAnimationFrame(spingame);
+                rowNo = 10;
                 reelSet();
                 stage.removeChild(reel6, reel7, reel8, reel9, reel10);
                 reel6.y = renderer.height / 5;
@@ -372,6 +370,7 @@ function spingame(){
             }
             else if (reel11.y >= renderer.height / 1) {
                     cancelAnimationFrame(spingame);
+                    rowNo = 15;
                     reelSet();
                     stage.removeChild(reel11, reel12, reel13, reel14, reel15);
                     reel11.y = renderer.height / 5;
@@ -425,9 +424,19 @@ function rng(){
    rngNumber = Math.floor((Math.random()*5));
 }
 
+function initreel(){
+    for (var i = 0; i < 15; i++) {
+
+        rng();
+        reelarray[i] = rngNumber;
+        console.log(reelarray);
+    }
+
+}
+
 function reelSet(){
 
-    for (var i = 0; i < 15; i++) {
+    for (var i = rowNo - 5; i < rowNo; i++) {
 
         rng();
         reelarray[i] = rngNumber;
