@@ -2,6 +2,7 @@
  * Created by cturner on 07/08/2017.
  */
 var stage;
+var balance = 200.00;
 var renderer;
 var initStake;
 var availStakes = [0.20,0.40,0.60,0.80,1,2,5,10,20,50,100,200];
@@ -21,6 +22,8 @@ var symb = [];
 var rngNumber;
 var rowNo;
 var anispeed = 10;
+var winlines = [[0,1,2,3,4], [5,6,7,8,9], [10,11,12,13,14], [0,1,7,3,4], [10,11,5,13,14]];
+var winnings;
 
 function init() {
     {
@@ -54,6 +57,11 @@ function assetLoad() {
     var background = new PIXI.Sprite(PIXI.loader.resources["img/background.png"].texture);
     background.scale.set(renderer.width / 1280, renderer.height / 720);
     background.position.set(0,0);
+
+    var balanceTxt = new PIXI.Text("£" + balance.toFixed(2),{fontFamily: "Arial", fill: 0xFFFFFF, fontSize: 40, align: 'left'});
+    balanceTxt.anchor.set(0,0);
+    balanceTxt.position.set(530,20);
+    background.addChild(balanceTxt);
 
     var homeBtn = new PIXI.Sprite(PIXI.loader.resources["img/buttons/home.png"].texture);
     homeBtn.scale.set(renderer.width / 2800, renderer.width / 2800);
@@ -127,6 +135,8 @@ function assetLoad() {
     spin.mouseup = function (mouseData) {
         spin.scale.set(renderer.width / 3000, renderer.width / 3000);
         spin.position.set(renderer.width / 1.2, renderer.height / 2.35);
+        balance = balance - availStakes[stakepos];
+        balanceTxt.text = "£" + balance.toFixed(2);
         spingame();
         refresh();
     };
@@ -291,6 +301,8 @@ function spingame(){
 
             cancelAnimationFrame(spingame);
             reelcount = 0;
+            console.log(reelarray);
+            checkwinnings();
             refresh();
         }
         else{
@@ -315,7 +327,6 @@ function spingame(){
             refresh();
             spingame();
             reelcount = reelcount + 1;
-            console.log(reelcount)
         }
         else if (reel[5].y >= renderer.height / 1) {
                 cancelAnimationFrame(spingame);
@@ -373,6 +384,35 @@ function reelSet(){
 
         rng();
         reelarray[i] = rngNumber;
-        console.log(reelarray);
     }
+}
+
+function checkwinnings(){
+    winnings = 0;
+    for (var i = 0; i < winlines.length ; i++){
+        if ((reelarray[winlines[i][0]] === reelarray[winlines[i][1]]) && (reelarray[winlines[i][1]] === reelarray[winlines[i][2]]) && (reelarray[winlines[i][2]] !== reelarray[winlines[i][3]])){
+            console.log("3 of a kind");
+            winnings = winnings + (availStakes[stakepos] * 5);
+        }
+        else if ((reelarray[winlines[i][0]] === reelarray[winlines[i][1]]) && (reelarray[winlines[i][1]] === reelarray[winlines[i][2]]) && (reelarray[winlines[i][2]] === reelarray[winlines[i][3]])
+            && (reelarray[winlines[i][3]] !== reelarray[winlines[i][4]])){
+            console.log("4 of a kind");
+            winnings  = winnings + (availStakes[stakepos] * 10);
+        }
+        else if ((reelarray[winlines[i][0]] === reelarray[winlines[i][1]]) && (reelarray[winlines[i][1]] === reelarray[winlines[i][2]])
+                && (reelarray[winlines[i][2]] === reelarray[winlines[i][3]]) && (reelarray[winlines[i][3]] === reelarray[winlines[i][4]])){
+
+            console.log("5 of a kind");
+            winnings  = winnings + (availStakes[stakepos]  * 20);
+
+        }
+        else{
+            console.log("Better luck next time");
+        }
+
+    }
+    console.log(winnings);
+    balance = balance + winnings;
+    balanceTxt.text = "£" + balance.toFixed(2);
+    refresh();
 }
