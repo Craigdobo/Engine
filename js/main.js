@@ -3,6 +3,7 @@
  */
 var stage;
 var balance = 200.00;
+var balanceTxt;
 var renderer;
 var initStake;
 var availStakes = [0.20,0.40,0.60,0.80,1,2,5,10,20,50,100,200];
@@ -58,7 +59,7 @@ function assetLoad() {
     background.scale.set(renderer.width / 1280, renderer.height / 720);
     background.position.set(0,0);
 
-    var balanceTxt = new PIXI.Text("£" + balance.toFixed(2),{fontFamily: "Arial", fill: 0xFFFFFF, fontSize: 40, align: 'left'});
+    balanceTxt = new PIXI.Text("£" + balance.toFixed(2),{fontFamily: "Arial", fill: 0xFFFFFF, fontSize: 40, align: 'left'});
     balanceTxt.anchor.set(0,0);
     balanceTxt.position.set(530,20);
     background.addChild(balanceTxt);
@@ -136,7 +137,8 @@ function assetLoad() {
         spin.scale.set(renderer.width / 3000, renderer.width / 3000);
         spin.position.set(renderer.width / 1.2, renderer.height / 2.35);
         balance = balance - availStakes[stakepos];
-        balanceTxt.text = "£" + balance.toFixed(2);
+        console.log(balanceTxt.text);
+        balanceUpdate();
         spingame();
         refresh();
     };
@@ -296,13 +298,14 @@ function decreaseStake(){
 
 function spingame(){
 
-    if (reelcount === 1){
+    if (reelcount === 2){
         if((reel[0].y >= renderer.height / 4) && (reel[5].y >= renderer.height / 2.2) && (reel[10].y >= renderer.height / 1.5)){
 
             cancelAnimationFrame(spingame);
             reelcount = 0;
             console.log(reelarray);
             checkwinnings();
+            balanceUpdate();
             refresh();
         }
         else{
@@ -388,7 +391,7 @@ function reelSet(){
 }
 
 function checkwinnings(){
-    winnings = 0;
+    winnings = 0.00;
     for (var i = 0; i < winlines.length ; i++){
         if ((reelarray[winlines[i][0]] === reelarray[winlines[i][1]]) && (reelarray[winlines[i][1]] === reelarray[winlines[i][2]]) && (reelarray[winlines[i][2]] !== reelarray[winlines[i][3]])){
             console.log("3 of a kind");
@@ -403,7 +406,7 @@ function checkwinnings(){
                 && (reelarray[winlines[i][2]] === reelarray[winlines[i][3]]) && (reelarray[winlines[i][3]] === reelarray[winlines[i][4]])){
 
             console.log("5 of a kind");
-            winnings  = winnings + (availStakes[stakepos]  * 20);
+            winnings  = winnings + (availStakes[stakepos] * 20);
 
         }
         else{
@@ -411,8 +414,11 @@ function checkwinnings(){
         }
 
     }
-    console.log(winnings);
     balance = balance + winnings;
-    balanceTxt.text = "£" + balance.toFixed(2);
+    console.log(balance);
     refresh();
+}
+
+function balanceUpdate(){
+    balanceTxt.text = "£" + balance.toFixed(2);
 }
