@@ -23,7 +23,8 @@ var symb = [];
 var rngNumber;
 var rowNo;
 var anispeed = 15;
-var winlines = [[0,1,2,3,4], [5,6,7,8,9], [10,11,12,13,14], [0,1,7,3,4], [10,11,5,13,14]];
+var winlines = [[0,1,2,3,4], [5,6,7,8,9], [10,11,12,13,14], [0,1,7,3,4], [10,11,5,13,14], [0,1,2,8,9], [10,11,12,8,9],
+                [0,6,12,8,4], [10,6,2,8,13], [0,1,7,13,14], [10,11,7,3,4]];
 var winnings;
 
 function init() {
@@ -299,7 +300,7 @@ function decreaseStake(){
 function spingame(){
 
     if (reelcount === 2){
-        if((reel[0].y >= renderer.height / 4) && (reel[5].y >= renderer.height / 2.2) && (reel[10].y >= renderer.height / 1.5)){
+        if((reel[0].y >= renderer.height / 5) && (reel[5].y >= renderer.height / 2.2) && (reel[10].y >= renderer.height / 1.5)){
 
             cancelAnimationFrame(spingame);
             reelcount = 0;
@@ -323,9 +324,7 @@ function spingame(){
             rowNo = 5;
             reelSet();
             for (var i = 0; i < 5; i++) {
-                stage.removeChild(reel[i]);
                 reel[i].y = renderer.height / 5;
-                stage.addChild(reel[i]);
             }
             refresh();
             spingame();
@@ -336,9 +335,7 @@ function spingame(){
                 rowNo = 10;
                 reelSet();
                 for (var i = 5; i < 10; i++) {
-                    stage.removeChild(reel[i]);
                     reel[i].y = renderer.height / 5;
-                    stage.addChild(reel[i]);
                 }
                 refresh();
                 spingame();
@@ -348,9 +345,7 @@ function spingame(){
                     rowNo = 15;
                     reelSet();
                     for (var i = 10; i < 15; i++) {
-                        stage.removeChild(reel[i]);
                         reel[i].y = renderer.height / 5;
-                        stage.addChild(reel[i]);
                     }
                     refresh();
                     spingame();
