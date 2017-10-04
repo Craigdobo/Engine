@@ -3,6 +3,7 @@
  */
 var stage;
 var balance = 200.00;
+var spin;
 var balanceTxt;
 var renderer;
 var initStake;
@@ -124,7 +125,7 @@ function assetLoad() {
         refresh();
     };
 
-    var spin = new PIXI.Sprite(PIXI.loader.resources["img/buttons/spin.png"].texture);
+    spin = new PIXI.Sprite(PIXI.loader.resources["img/buttons/spin.png"].texture);
     spin.scale.set(renderer.width / 3000, renderer.width / 3000);
     spin.position.set(renderer.width / 1.2, renderer.height / 2.35);
     spin.interactive = true;
@@ -141,6 +142,7 @@ function assetLoad() {
         console.log(balanceTxt.text);
         balanceUpdate();
         spingame();
+        checkbalance();
         refresh();
     };
 
@@ -166,6 +168,7 @@ function assetLoad() {
         up.scale.set(renderer.width / 3500, renderer.width / 3500);
         up.position.set(renderer.width / 34.95 , renderer.height / 2.49);
         increaseStake();
+        checkbalance();
     };
 
     down = new PIXI.Sprite(PIXI.loader.resources["img/buttons/down.png"].texture);
@@ -182,6 +185,7 @@ function assetLoad() {
         down.scale.set(renderer.width / 3500, renderer.width / 3500);
         down.position.set(renderer.width / 35 , renderer.height / 1.55);
         decreaseStake();
+        checkbalance();
     };
 
     H1 = PIXI.Texture.fromImage("img/reel/Jelly_01.png");
@@ -293,11 +297,14 @@ function decreaseStake(){
         else{
             down.interactive = true;
         }
+
         refresh();
     }
 }
 
 function spingame(){
+
+    spin.interactive = false;
 
     if (reelcount === 2){
         if((reel[0].y >= renderer.height / 5) && (reel[5].y >= renderer.height / 2.2) && (reel[10].y >= renderer.height / 1.5)){
@@ -307,6 +314,7 @@ function spingame(){
             console.log(reelarray);
             checkwinnings();
             balanceUpdate();
+            spin.interactive = true;
             refresh();
         }
         else{
@@ -407,7 +415,6 @@ function checkwinnings(){
         else{
             console.log("Better luck next time");
         }
-
     }
     balance = balance + winnings;
     console.log(balance);
@@ -416,4 +423,14 @@ function checkwinnings(){
 
 function balanceUpdate(){
     balanceTxt.text = "£" + balance.toFixed(2);
+}
+
+function checkbalance(){
+    if (balance < availStakes[stakepos]){
+        spin.interactive = false;
+        console.log(availStakes[stakepos]);
+    }
+    else{
+        spin.interactive = true;
+    }
 }
