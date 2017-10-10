@@ -249,10 +249,21 @@ function assetLoad() {
     reel[14].position.set(renderer.width / 1.5 , renderer.height / 1.4);
 
     stage.addChild(background, homeBtn, spin, stake, up, down);
+
+    var masksContainer = new PIXI.Container();
+    stage.addChild(masksContainer);
+    var mask = new PIXI.Graphics();
+    mask.beginFill(0xffffff);
+    mask.drawRect(renderer.width / 6 , renderer.height / 7, renderer.width / 1.6 , renderer.height / 1.3);
+    mask.endFill();
+    masksContainer.addChild(mask);
+
     for (var i = 0 ; i < 15; i++){
-        stage.addChild(reel[i]);
+        masksContainer.addChild(reel[i]);
+        reel[i].mask = mask;
         refresh();
     }
+
     refresh();
 }
 
