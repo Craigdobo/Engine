@@ -24,8 +24,7 @@ var symb = [];
 var rngNumber;
 var rowNo;
 var anispeed = 15;
-var winlines = [[0,1,2,3,4], [5,6,7,8,9], [10,11,12,13,14], [0,1,7,3,4], [10,11,5,13,14], [0,1,2,8,9], [10,11,12,8,9],
-                [0,6,12,8,4], [10,6,2,8,13], [0,1,7,13,14], [10,11,7,3,4]];
+var winlines = [[0,1,2,3,4], [5,6,7,8,9], [10,11,12,13,14], [0,6,12,8,4], [10,6,2,8,14]];
 var winnings;
 
 function init() {
@@ -325,17 +324,18 @@ function spingame(){
             console.log(reelarray);
             checkwinnings();
             balanceUpdate();
-            spin.interactive = true;
+            checkbalance();
             refresh();
         }
         else{
             for (var i = 0; i < 15; i++){
                 reel[i].y += anispeed;
             }
-
             requestAnimationFrame(spingame);
+            checkbalance();
             refresh();
         }
+
     }
 
     else if (reel[0].y >= renderer.height / 1) {
@@ -409,27 +409,31 @@ function checkwinnings(){
     for (var i = 0; i < winlines.length ; i++){
         if ((reelarray[winlines[i][0]] === reelarray[winlines[i][1]]) && (reelarray[winlines[i][1]] === reelarray[winlines[i][2]]) && (reelarray[winlines[i][2]] !== reelarray[winlines[i][3]])){
             console.log("3 of a kind");
-            winnings = winnings + (availStakes[stakepos] * 5);
+            winnings = winnings + ((availStakes[stakepos]/20) * 5);
+            console.log(winnings);
+            refresh();
         }
         else if ((reelarray[winlines[i][0]] === reelarray[winlines[i][1]]) && (reelarray[winlines[i][1]] === reelarray[winlines[i][2]]) && (reelarray[winlines[i][2]] === reelarray[winlines[i][3]])
             && (reelarray[winlines[i][3]] !== reelarray[winlines[i][4]])){
             console.log("4 of a kind");
-            winnings  = winnings + (availStakes[stakepos] * 10);
+            winnings  = winnings + ((availStakes[stakepos]/20) * 10);
+            console.log(winnings);
+            refresh();
         }
         else if ((reelarray[winlines[i][0]] === reelarray[winlines[i][1]]) && (reelarray[winlines[i][1]] === reelarray[winlines[i][2]])
                 && (reelarray[winlines[i][2]] === reelarray[winlines[i][3]]) && (reelarray[winlines[i][3]] === reelarray[winlines[i][4]])){
 
             console.log("5 of a kind");
-            winnings  = winnings + (availStakes[stakepos] * 20);
+            winnings  = winnings + ((availStakes[stakepos]/20) * 20);
+            console.log(winnings);
+            refresh();
 
         }
         else{
             console.log("Better luck next time");
         }
+        balance = balance + winnings;
     }
-    balance = balance + winnings;
-    console.log(balance);
-    refresh();
 }
 
 function balanceUpdate(){
@@ -445,3 +449,4 @@ function checkbalance(){
         spin.interactive = true;
     }
 }
+
